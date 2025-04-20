@@ -34,10 +34,10 @@ module normal_round(
 );
 reg [31:0] temp0, temp1, temp2, temp3;
 always @(state0_in, state1_in, state2_in, state3_in, round) begin
-    temp0 = (state0_in ^ state1_in) ^ (state2_in - state3_in);
+    temp0 = (state0_in + state1_in) ^ (state2_in - state3_in);
     temp1 = (~temp0 & `STUDENT_ID) | (state3_in ^ round);
-    temp2 = (state2_in | `STUDENT_ID) & (temp1 >> round);
-    temp3 = (state3_in << round) ^ (`BIRTHDATE & temp2);
+    temp2 = (state2_in ^ `STUDENT_ID) - (temp1 >> round);
+    temp3 = (state3_in << round) ^ (`BIRTHDATE + temp2);
 end
 assign state0_out = temp0;
 assign state1_out = temp1;

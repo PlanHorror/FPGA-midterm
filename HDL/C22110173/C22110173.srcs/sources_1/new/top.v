@@ -76,7 +76,7 @@ always @(posedge clk ) begin
             s2_in <= temp2;
             s3_in <= temp3;
             counter <= counter + 1;
-        end else if (counter == round) begin
+        end else if (counter == round - 1) begin
             state0_out <= s0_out;
             state1_out <= s1_out;
             state2_out <= s2_out;
