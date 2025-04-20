@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../C22110173.srcs/sources_1/new" \
+"../../../../C22110173.srcs/sources_1/new/first_round.v" \
+"../../../../C22110173.srcs/sources_1/new/normal_round.v" \
+"../../../../C22110173.srcs/sources_1/new/round_cal.v" \
+"../../../../C22110173.srcs/sources_1/new/top.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
