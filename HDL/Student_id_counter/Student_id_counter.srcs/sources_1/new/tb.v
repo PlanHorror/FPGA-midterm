@@ -20,7 +20,7 @@ module tb_mearly;
     always #5 clk = ~clk;
 
     // Display on output change
-    always @(in) begin
+    always @(in, out) begin
         if (out) begin
             $display(" Output is HIGH at time %0t, test case  %0d with input %b", $time, case_number, in);
         end else begin

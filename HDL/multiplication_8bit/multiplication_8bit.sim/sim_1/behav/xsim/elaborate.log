@@ -4,14 +4,15 @@ Running: F:/Xilinx/Vivado/2022.2/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 39 differs from formal bit length 8 for port 'a' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:47]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:56]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:65]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:74]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:83]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:92]
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:101]
-WARNING: [VRFC 10-8864] concatenation with an unsized literal will be treated as 32 bits [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:47]
+WARNING: [VRFC 10-3091] actual bit length 39 differs from formal bit length 8 for port 'p' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:39]
+WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'carry_in' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/step.v:39]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:49]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:59]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:69]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:79]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:89]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 8 for port 'c_out' [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:99]
+WARNING: [VRFC 10-8864] concatenation with an unsized literal will be treated as 32 bits [F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v:39]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
@@ -19,6 +20,7 @@ Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.HA
 Compiling module xil_defaultlib.FA
 Compiling module xil_defaultlib.adder_8bit
+Compiling module xil_defaultlib.step
 Compiling module xil_defaultlib.structure
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot structure_behav

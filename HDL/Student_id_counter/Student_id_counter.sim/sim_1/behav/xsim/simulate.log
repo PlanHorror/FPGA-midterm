@@ -1,8 +1,11 @@
 Time resolution is 1 ps
  Output is LOW at time 0, test case  0 with input 000000
+ Output is LOW at time 0, test case  0 with input 000000
  Output is LOW at time 20000, test case  1 with input 000001
  Output is LOW at time 30000, test case  1 with input 000111
  Output is LOW at time 40000, test case  1 with input 000011
+ Output is HIGH at time 40000, test case  1 with input 000011
+ Output is LOW at time 45000, test case  1 with input 000011
  Output is LOW at time 50000, test case  1 with input 000000
  Output is LOW at time 60000, test case  2 with input 000001
  Output is LOW at time 70000, test case  2 with input 000111
@@ -64,4 +67,9 @@ Time resolution is 1 ps
  Output is LOW at time 690000, test case  17 with input 000000
  Output is LOW at time 700000, test case  18 with input 000011
  Output is LOW at time 730000, test case  18 with input 000001
- Output is LOW at time 7400
+ Output is LOW at time 740000, test case  19 with input 000111
+ Output is LOW at time 750000, test case  19 with input 000011
+ Output is LOW at time 760000, test case  19 with input 000000
+ Output is LOW at time 770000, test case  19 with input 000001
+? Testbench completed at time 810000
+$finish called at time : 830 ns : File "F:/Repository/FPGA-midterm/HDL/Student_id_counter/Student_id_counter.srcs/sources_1/new/tb.v" Line 161
