@@ -2,3 +2,6 @@ Running: xsim.dir/mearly_behav/xsimk.exe -simmode gui -wdb mearly_behav.wdb -sim
 Design successfully loaded
 Design Loading Memory Usage: 7204 KB (Peak: 7204 KB)
 Design Loading CPU Usage: 46 ms
+Simulation completed
+Simulation Memory Usage: 7728 KB (Peak: 7728 KB)
+Simulation CPU Usage: 77 ms

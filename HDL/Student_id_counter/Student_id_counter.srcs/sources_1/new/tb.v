@@ -7,6 +7,8 @@ module tb_mearly;
     reg [5:0] in;
     wire out;
 
+    integer case_number;
+
     mearly uut (
         .clk(clk),
         .reset(reset),
@@ -17,63 +19,146 @@ module tb_mearly;
     // Clock generation
     always #5 clk = ~clk;
 
-    // Task to apply a single input for one cycle
-    task apply_input;
-        input [5:0] value;
-        begin
-            in = value;
-            #10;
+    // Display on output change
+    always @(in) begin
+        if (out) begin
+            $display(" Output is HIGH at time %0t, test case  %0d with input %b", $time, case_number, in);
+        end else begin
+            $display(" Output is LOW at time %0t, test case  %0d with input %b", $time, case_number, in);
         end
-    endtask
-
-    // Task to run one full test case (4-step input)
-    task run_testcase;
-        input integer idx;
-        input [5:0] i0, i1, i2, i3;
-        begin
-            $display("Test case %0d: %b %b %b %b", idx, i0, i1, i2, i3);
-            apply_input(i0);
-            apply_input(i1);
-            apply_input(i2);
-            apply_input(i3);
-            if (out == 1)
-                $display("? Output HIGH at test case %0d\n", idx);
-            else
-                $display("? Output LOW at test case %0d\n", idx);
-        end
-    endtask
+    end
 
     initial begin
         clk = 0;
         reset = 1;
         in = 6'b0;
+        case_number = 0;
         #10;
         reset = 0;
 
-        // All 20 test cases
-        run_testcase(1, 6'b000000, 6'b000001, 6'b000111, 6'b000011); // ? CORRECT SEQUENCE
-        run_testcase(2, 6'b000000, 6'b000001, 6'b000111, 6'b000000);
-        run_testcase(3, 6'b000000, 6'b000001, 6'b000000, 6'b000011);
-        run_testcase(4, 6'b000000, 6'b000001, 6'b000110, 6'b000011);
-        run_testcase(5, 6'b000001, 6'b000001, 6'b000111, 6'b000011);
-        run_testcase(6, 6'b000000, 6'b000010, 6'b000111, 6'b000011);
-        run_testcase(7, 6'b000000, 6'b000001, 6'b000111, 6'b111111);
-        run_testcase(8, 6'b111111, 6'b000001, 6'b000111, 6'b000011);
-        run_testcase(9, 6'b000000, 6'b000001, 6'b000011, 6'b000111);
-        run_testcase(10, 6'b000000, 6'b000001, 6'b000111, 6'b000010);
-        run_testcase(11, 6'b000000, 6'b000001, 6'b111111, 6'b000011);
-        run_testcase(12, 6'b000000, 6'b000001, 6'b000111, 6'b111000);
-        run_testcase(13, 6'b000000, 6'b111111, 6'b000111, 6'b000011);
-        run_testcase(14, 6'b000001, 6'b000111, 6'b000011, 6'b000000);
-        run_testcase(15, 6'b000000, 6'b000001, 6'b000111, 6'b000100);
-        run_testcase(16, 6'b000000, 6'b000001, 6'b000110, 6'b000011);
-        run_testcase(17, 6'b000000, 6'b000010, 6'b000011, 6'b000111);
-        run_testcase(18, 6'b000000, 6'b000000, 6'b000000, 6'b000011);
-        run_testcase(19, 6'b000000, 6'b000001, 6'b000111, 6'b001000);
-        run_testcase(20, 6'b111000, 6'b000001, 6'b000111, 6'b000011);
+        // ---------- Test Case 1 (Valid path) ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
 
-        $display("? Testbench finished.");
+        // ---------- Test Case 2 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000100; #10; 
+
+        // ---------- Test Case 3 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000110; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 4 ----------
+        in = 6'b000010; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 5 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b001111; #10; 
+
+        // ---------- Test Case 6 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000110; #10; 
+        in = 6'b000010; #10; 
+
+        // ---------- Test Case 7 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000010; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 8 ----------
+        in = 6'b000111; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000000; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 9 ----------
+        in = 6'b000001; #10; case_number = case_number + 1;
+        in = 6'b000000; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 10 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000000; #10; 
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+
+        // ---------- Test Case 11 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000010; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 12 ----------
+        in = 6'b000111; #10; case_number = case_number + 1;
+        in = 6'b000111; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 13 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000111; #10; 
+        in = 6'b000001; #10; 
+
+        // ---------- Test Case 14 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000001; #10; 
+        in = 6'b000110; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 15 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000000; #10; 
+        in = 6'b000000; #10; 
+        in = 6'b000000; #10; 
+
+        // ---------- Test Case 16 ----------
+        in = 6'b000001; #10; case_number = case_number + 1;
+        in = 6'b000010; #10; 
+        in = 6'b000011; #10; 
+        in = 6'b000100; #10; 
+
+        // ---------- Test Case 17 ----------
+        in = 6'b000111; #10; case_number = case_number + 1;
+        in = 6'b000000; #10; 
+        in = 6'b000001; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 18 ----------
+        in = 6'b000000; #10; case_number = case_number + 1;
+        in = 6'b000011; #10; 
+        in = 6'b000011; #10; 
+        in = 6'b000011; #10; 
+
+        // ---------- Test Case 19 ----------
+        in = 6'b000001; #10; case_number = case_number + 1;
+        in = 6'b000111; #10; 
+        in = 6'b000011; #10; 
+        in = 6'b000000; #10; 
+
+        // ---------- Test Case 20 ----------
+        in = 6'b000001; #10; case_number = case_number + 1; 
+        in = 6'b000001; #10; 
+        in = 6'b000001; #10; 
+        in = 6'b000001; #10; 
+
+        $display("? Testbench completed at time %0t", $time);
         #20;
         $finish;
     end
+
 endmodule

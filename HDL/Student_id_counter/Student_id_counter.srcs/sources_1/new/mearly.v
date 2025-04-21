@@ -46,6 +46,7 @@ module mearly(
     always @(state, in) begin
         case (state)
             S0: begin
+                out = 0; // Output is low when in state S0
                 if (in == 6'b000000) begin
                     next_state = S1; 
                 end else
@@ -54,6 +55,7 @@ module mearly(
                 end
             end
             S1: begin
+                out = 0; // Output is low when in state S1
                 if (in == 6'b000001) begin
                     next_state = S2; 
                 end else if (in == 6'b000000) begin
@@ -63,6 +65,7 @@ module mearly(
                 end
             end
             S2: begin
+                out = 0; // Output is low when in state S2
                 if (in == 6'b000111) begin
                     next_state = S3; 
                 end else if (in == 6'b000000) begin
@@ -78,8 +81,10 @@ module mearly(
                     next_state = S0; // Go back to initial state after output.
                 end else if (in == 6'b000000) begin
                     next_state = S1; // Go back to state S1 if input is 0.
+                    out = 0; // Reset output to 0
                 end else begin
                     next_state = S0; // Go back to initial state if input is not 3.
+                    out = 0; // Reset output to 0
                 end
             end
         endcase
