@@ -1,0 +1,14 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../multiplication_8bit.srcs/sources_1/new" \
+"../../../../multiplication_8bit.srcs/sources_1/new/FA.v" \
+"../../../../multiplication_8bit.srcs/sources_1/new/HA.v" \
+"../../../../multiplication_8bit.srcs/sources_1/new/adder_8bit.v" \
+"../../../../multiplication_8bit.srcs/sources_1/new/step.v" \
+"../../../../multiplication_8bit.srcs/sources_1/new/structure.v" \
+"../../../../multiplication_8bit.srcs/sources_1/new/compute.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

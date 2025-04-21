@@ -3,8 +3,10 @@
 Oct 14 2022
 05:20:55
 F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.sim/sim_1/behav/xsim/glbl.v,1665704903,verilog,,,,glbl,,,,,,,,
-F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/FA.v,1745197979,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,,FA,,,,,,,,
-F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,1745197892,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,,HA,,,,,,,,
-F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,1745200139,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/step.v,,adder_8bit,,,,,,,,
-F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/step.v,1745208150,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,,step,,,,,,,,
-F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,1745208715,verilog,,,,structure,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/FA.v,1745197979,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,,FA,,,../../../../multiplication_8bit.srcs/sources_1/new,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,1745197892,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,,HA,,,../../../../multiplication_8bit.srcs/sources_1/new,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,1745209098,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/step.v,,adder_8bit,,,../../../../multiplication_8bit.srcs/sources_1/new,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/common.vh,1745214040,verilog,,,,,,,,,,,,
+,,,,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/common.vh,compute,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/step.v,1745208150,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,,step,,,../../../../multiplication_8bit.srcs/sources_1/new,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,1745214134,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/compute.v,,structure,,,../../../../multiplication_8bit.srcs/sources_1/new,,,,,

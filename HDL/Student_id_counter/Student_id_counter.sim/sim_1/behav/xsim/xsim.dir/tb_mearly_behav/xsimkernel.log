@@ -1,7 +1,7 @@
-Running: xsim.dir/tb_mearly_behav/xsimk.exe -simmode gui -wdb tb_mearly_behav.wdb -simrunnum 0 -socket 52452
+Running: xsim.dir/tb_mearly_behav/xsimk.exe -simmode gui -wdb tb_mearly_behav.wdb -simrunnum 0 -socket 53098
 Design successfully loaded
-Design Loading Memory Usage: 7192 KB (Peak: 7192 KB)
-Design Loading CPU Usage: 31 ms
+Design Loading Memory Usage: 7196 KB (Peak: 7196 KB)
+Design Loading CPU Usage: 0 ms
 Simulation completed
-Simulation Memory Usage: 7784 KB (Peak: 7784 KB)
-Simulation CPU Usage: 46 ms
+Simulation Memory Usage: 7796 KB (Peak: 7796 KB)
+Simulation CPU Usage: 0 ms

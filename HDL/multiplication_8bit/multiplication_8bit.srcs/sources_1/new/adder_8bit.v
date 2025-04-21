@@ -38,5 +38,4 @@ module adder_8bit(
     FA fa6(.a(a[6]), .b(b[6]), .cin(c[5]), .sum(sum[6]), .carry(c[6]));
     FA fa7(.a(a[7]), .b(b[7]), .cin(c[6]), .sum(sum[7]), .carry(carry));
 
-
 endmodule
