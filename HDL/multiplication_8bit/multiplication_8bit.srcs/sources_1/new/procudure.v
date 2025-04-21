@@ -25,7 +25,7 @@ module procudure(
     input [7:0] b,
     output reg [15:0] c
 );
-    always @(*) begin
+    always @(a,b) begin
         c = a * b;
     end
 endmodule

@@ -1,0 +1,4 @@
+Running: xsim.dir/mearly_behav/xsimk.exe -simmode gui -wdb mearly_behav.wdb -simrunnum 0 -socket 51967
+Design successfully loaded
+Design Loading Memory Usage: 7204 KB (Peak: 7204 KB)
+Design Loading CPU Usage: 46 ms
