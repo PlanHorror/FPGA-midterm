@@ -1,0 +1,11 @@
+0.7
+2020.2
+Oct 14 2022
+05:20:55
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.sim/sim_1/behav/xsim/glbl.v,1665704903,verilog,,,,glbl,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/FA.v,1745197979,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,,FA,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/HA.v,1745197892,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,,HA,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_4bit.v,1745198822,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/mul_4bit.v,,adder_4bit,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/adder_8bit.v,1745200139,verilog,,F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,,adder_8bit,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/mul_4bit.v,1745199607,verilog,,,,mul_4bit,,,,,,,,
+F:/Repository/FPGA-midterm/HDL/multiplication_8bit/multiplication_8bit.srcs/sources_1/new/structure.v,1745200567,verilog,,,,structure,,,,,,,,

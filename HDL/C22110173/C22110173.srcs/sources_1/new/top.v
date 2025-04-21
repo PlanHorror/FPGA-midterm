@@ -37,21 +37,11 @@ output reg valid_out
 wire [4:0] round;
 reg [4:0] counter;
 reg [31:0] s0_in, s1_in, s2_in, s3_in;
-wire [31:0] s0_out, s1_out, s2_out, s3_out, temp0, temp1, temp2, temp3;
+wire [31:0] s0_out, s1_out, s2_out, s3_out;
 round_cal round_cal_ins(
     .round(round)
 );
-first_round first_round_ins(
-    .state0_in(state0_in),
-    .state1_in(state1_in),
-    .state2_in(state2_in),
-    .state3_in(state3_in),
-    .state0_out(temp0),
-    .state1_out(temp1),
-    .state2_out(temp2),
-    .state3_out(temp3)
-);
-normal_round normal_round_ins(
+round_top round_top_ins(
     .state0_in(s0_in),
     .state1_in(s1_in),
     .state2_in(s2_in),
@@ -62,35 +52,48 @@ normal_round normal_round_ins(
     .state2_out(s2_out),
     .state3_out(s3_out)
 );
-always @(posedge clk ) begin
-    if (!rst) begin
-        counter <= 0;
-        s0_in <= 0;
-        s1_in <= 0;
-        s2_in <= 0;
-        s3_in <= 0;
-    end else if (start_in) begin
-        if (counter == 0) begin
-            s0_in <= temp0;
-            s1_in <= temp1;
-            s2_in <= temp2;
-            s3_in <= temp3;
-            counter <= counter + 1;
-        end else if (counter == round - 1) begin
-            state0_out <= s0_out;
-            state1_out <= s1_out;
-            state2_out <= s2_out;
-            state3_out <= s3_out;
-            counter <= counter;
-            valid_out <= 1;
-        end else begin
+always @(counter) begin
+    case (counter)
+        round: begin
+            state0_out = s0_out;
+            state1_out = s1_out;
+            state2_out = s2_out;
+            state3_out = s3_out;
+            valid_out = 1;
+        end
+        default: begin
             s0_in <= s0_out;
             s1_in <= s1_out;
             s2_in <= s2_out;
             s3_in <= s3_out;
+        end
+    endcase
+end
+always @(posedge clk ) begin
+    if (~rst) begin
+        counter <= 0;
+        s0_in <= state0_in;
+        s1_in <= state1_in;
+        s2_in <= state2_in;
+        s3_in <= state3_in;
+        valid_out <= 0;
+    end else if (start_in) begin
+        if (counter < round -1) begin
             counter <= counter + 1;
         end
     end
 end
+always @(s0_out, s1_out, s2_out, s3_out) begin
+    $display("s0_in: %h", s0_in);
+    $display("s1_in: %h", s1_in);
+    $display("s2_in: %h", s2_in);
+    $display("s3_in: %h", s3_in);
+    $display("s0_out: %h", s0_out);
+    $display("s1_out: %h", s1_out);
+    $display("s2_out: %h", s2_out);
+    $display("s3_out: %h", s3_out);
+    $display("round: %d", counter);
+end
+
 
 endmodule

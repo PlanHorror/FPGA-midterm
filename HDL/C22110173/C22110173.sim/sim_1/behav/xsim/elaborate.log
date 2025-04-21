@@ -11,6 +11,7 @@ Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.round_cal
 Compiling module xil_defaultlib.first_round
 Compiling module xil_defaultlib.normal_round
+Compiling module xil_defaultlib.round_top
 Compiling module xil_defaultlib.top
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot top_behav

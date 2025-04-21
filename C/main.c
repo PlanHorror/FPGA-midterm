@@ -8,15 +8,10 @@
 
 void hash_function(uint32_t state[4], uint32_t round) {
     for (uint32_t i = 0; i < round; ++i) {
-      
         if (i == 0) {
-            printf("Result of XOR between %08x and %08x: %08x\n", state[0], student_id, state[0] ^ student_id);
             state[0] = state[1] ^ student_id;
-            printf("Result of OR between %08x and %08x: %08x\n", state[1], birth_date, state[1] | birth_date);
             state[1] = state[2] | state[3];
-            printf("Result of AND between %08x and %08x: %08x\n", state[2], birth_date, state[2] & birth_date);
             state[2] = state[3] & birth_date;
-            printf("Result of Sum between %08x and %08x: %08x\n", state[3], state[0], state[3] + state[0]);
             state[3] = state[0] + state[1];
         }
         else {

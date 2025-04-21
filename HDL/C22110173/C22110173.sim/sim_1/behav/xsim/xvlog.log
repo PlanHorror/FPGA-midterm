@@ -4,5 +4,7 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "F:/Repository/FPGA-midterm/HDL/C221
 INFO: [VRFC 10-311] analyzing module normal_round
 INFO: [VRFC 10-2263] Analyzing Verilog file "F:/Repository/FPGA-midterm/HDL/C22110173/C22110173.srcs/sources_1/new/round_cal.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module round_cal
+INFO: [VRFC 10-2263] Analyzing Verilog file "F:/Repository/FPGA-midterm/HDL/C22110173/C22110173.srcs/sources_1/new/round_top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module round_top
 INFO: [VRFC 10-2263] Analyzing Verilog file "F:/Repository/FPGA-midterm/HDL/C22110173/C22110173.srcs/sources_1/new/top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module top
