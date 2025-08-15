@@ -1,37 +1,282 @@
+// Created by: Le Vu Trung Duong
+// Created on: 2025-03-06
+// Description: This file is used to test the FPGA driver by sending data to the FPGA and receiving the result back from the FPGA.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+
+#include <fcntl.h>
+#include <stdint.h>
+#include <math.h>
+
+#include "./FPGA_Driver.c" // call fpga driver
+
+
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 
-#define student_id   0x22110173 // Mã Số Sinh Viên
-#define birth_date   0x12082004 // Ngày Tháng Năm Sinh
-#define birth_day    12          // Ngày Sinh
-#define birth_month  8          // Tháng Sinh
+#define SIZE 1024
 
-void hash_function(uint32_t state[4], uint32_t round) {
-    for (uint32_t i = 0; i < round; ++i) {
-        if (i == 0) {
-            state[0] = state[1] ^ student_id;
-            state[1] = state[2] | state[3];
-            state[2] = state[3] & birth_date;
-            state[3] = state[0] + state[1];
-        }
-        else {
-            state[0] = (state[0] + state[1]) ^ (state[2] - state[3]);
-            state[1] = (~state[0] & student_id) | ((state[3]) ^ i);
-            state[2] = (state[2] ^ student_id) - (state[1] >> i);
-            state[3] = (state[3] << i) ^ (birth_date + state[2]);
-        }printf("Round %d: %08x %08x %08x %08x\n", i, state[0], state[1], state[2], state[3]);
+
+
+#define PADDING_BASE	 0x01000000  // 16MB Ofset to avoid system files
+
+#define A_BASE      0x0000000000+PADDING_BASE  // Địa chỉ sẽ giống dưới phần cứng ở phần thấp. => 0x04_8100_0000  
+#define B_BASE      0x0000001000+PADDING_BASE  // 0x04_8100_1000
+#define OUT_BASE    0x0000002000+PADDING_BASE  // 0x04_8100_2000
+#define OP_BASE     0x0000003000+PADDING_BASE  // 0x04_8100_3000
+#define DONE_BASE   0x0000010000
+#define START_BASE  0x0000020000
+
+// Hàm tạo file
+void create_files() {
+    FILE *fileA = fopen("Input_A_ROM.txt", "w");
+    FILE *fileB = fopen("Input_B_ROM.txt", "w");
+    FILE *fileOp = fopen("Operation_ROM.txt", "w");
+    
+    if (!fileA || !fileB || !fileOp) {
+        perror("Error opening file");
+        exit(EXIT_FAILURE);
+    }
+    
+    for (int i = 0; i < SIZE; i++) {
+        fprintf(fileA, "00000001\n");
+        fprintf(fileB, "00000005\n");
+        
+        fprintf(fileOp, "%08X", i%8);
+
+        fprintf(fileOp, "\n");
+    }
+    
+    fclose(fileA);
+    fclose(fileB);
+    fclose(fileOp);
+}
+
+
+
+// Hàm đọc file vào mảng
+void read_files(uint32_t Input_A[SIZE], uint32_t Input_B[SIZE], uint32_t Operation[SIZE]) {
+    FILE *fileA = fopen("Input_A_ROM.txt", "r");
+    FILE *fileB = fopen("Input_B_ROM.txt", "r");
+    FILE *fileOp = fopen("Operation_ROM.txt", "r");
+    
+    if (!fileA || !fileB || !fileOp) {
+        perror("Error opening file");
+        exit(EXIT_FAILURE);
+    }
+    
+    for (int i = 0; i < SIZE; i++) {
+        fscanf(fileA, "%8x", &Input_A[i]);
+        fscanf(fileB, "%8x", &Input_B[i]);
+        fscanf(fileOp, "%8x", &Operation[i]);
+    }
+    
+    fclose(fileA);
+    fclose(fileB);
+    fclose(fileOp);
+}
+
+// Hàm ghi kết quả ra file
+void write_output(uint32_t Out[SIZE]) {
+    FILE *fileOut = fopen("Output_ROM.txt", "w");
+    
+    if (!fileOut) {
+        perror("Error opening output file");
+        exit(EXIT_FAILURE);
+    }
+    
+    for (int i = 0; i < SIZE; i++) {
+        fprintf(fileOut, "%08X ", Out[i]);
+        fprintf(fileOut, "\n");
+    }
+    
+    fclose(fileOut);
+    printf("Output written to Output_ROM.txt\n");
+}
+
+
+int main() {
+
+    uint32_t Input_A[SIZE], Input_B[SIZE], Operation[SIZE];
+
+    // Tạo file
+    create_files();
+    
+    // Đọc dữ liệu từ file vào mảng
+    read_files(Input_A, Input_B, Operation);
+    
+    // // Kiểm tra dữ liệu đọc được
+    // printf("First 5 values of Input_A: \n");
+    // for (int i = 0; i < 5; i++) {
+    //     printf("%08X\n", Input_A[i]);
+    // }
+    
+    // printf("First 5 values of Input_B: \n");
+    // for (int i = 0; i < 5; i++) {
+    //     printf("%08X\n", Input_B[i]);
+    // }
+    
+    // printf("First 5 values of Operation: \n");
+    // for (int i = 0; i < 5; i++) {
+    //     printf("%04X\n", Operation[i]);
+    // }
+    
+    unsigned char* membase;
+    if (fpga_open() == 0)
+        exit(1);
+
+    fpga.dma_ctrl = CGRA_info.dma_mmap;
+    membase = (unsigned char*)CGRA_info.ddr_mmap;
+
+    //Khai báo vùng con trỏ trên FPGA
+
+    uint32_t* A     =   (uint32_t*)(membase + A_BASE     );
+    uint32_t* B     =   (uint32_t*)(membase + B_BASE     );
+    uint32_t* Op    =   (uint32_t*)(membase + OP_BASE    );
+    uint32_t* Out   =   (uint32_t*)(membase + OUT_BASE   );
+    uint32_t* Done  =   (uint32_t*)(CGRA_info.pio_32_mmap + DONE_BASE);
+    uint32_t* Start =   (uint32_t*)(CGRA_info.pio_32_mmap + START_BASE);
+
+    for (int i = 0; i < SIZE; i++) {
+        A[i] = Input_A[i];
+        B[i] = Input_B[i];
+        Op[i] = Operation[i];
+    }
+    printf("membase = %016llX\n", membase);
+    printf("A = %08X\n", A);
+    printf("B = %08X\n", B);
+    printf("Out = %08X\n", Out);
+    printf("Op = %08X\n", Op);
+    
+    printf("Writing to FPGA\n");
+    
+    dma_write(A_BASE , SIZE);
+    dma_write(B_BASE , SIZE);
+    dma_write(OP_BASE, SIZE);
+
+    *Start = 1;
+    printf("Waiting for FPGA\n");
+    // printf("Done = %d\n", *Done);
+    while (*Done == 0);
+    printf("FPGA done\n");
+    dma_read(OUT_BASE, SIZE);
+    // Ghi kết quả ra file
+    write_output(Out);
+
+    return 0;
+}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <fcntl.h>
+#include <stdint.h>
+#include <math.h>
+#include <time.h>
+
+#include "./FPGA_Driver.c"
+
+#define SIZE 1024
+
+#define PADDING_BASE    0x01000000
+
+#define A_BASE      0x0000000000+PADDING_BASE
+#define B_BASE      0x0000001000+PADDING_BASE
+#define C_BASE      0x0000002000+PADDING_BASE
+#define D_BASE      0x0000003000+PADDING_BASE
+#define E_BASE      0x0000004000+PADDING_BASE
+#define OUT_BASE    0x0000005000+PADDING_BASE
+#define DONE_BASE   0x0000010000
+#define START_BASE  0x0000020000
+
+// Generate random input data
+void generate_random_data(uint32_t Input_A[SIZE], uint32_t Input_B[SIZE], uint32_t Input_C[SIZE], 
+                         uint32_t Input_D[SIZE], uint32_t Input_E[SIZE]) {
+    srand(time(NULL));
+    for (int i = 0; i < SIZE; i++) {
+        Input_A[i] = rand() % 256; // 0 to 255
+        Input_B[i] = rand() % 256;
+        Input_C[i] = rand() % 256;
+        Input_D[i] = rand() % 256;
+        Input_E[i] = rand() % 256;
+    }
+}
+
+// Print output results
+void print_output(uint32_t Out[SIZE]) {
+    printf("Output results:\n");
+    for (int i = 0; i < SIZE; i++) {
+        printf("Out[%d] = %08X\n", i, Out[i]);
     }
 }
 
 int main() {
-    uint32_t round = birth_day | birth_month;
+    uint32_t Input_A[SIZE], Input_B[SIZE], Input_C[SIZE], Input_D[SIZE], Input_E[SIZE];
 
-    uint32_t state[4] = {0xdeadbeef, 0xcafebabe, 0xfaceb00c, 0xbadc0dde};
-    printf("Initial State: %08x %08x %08x %08x\n", state[0], state[1], state[2], state[3]);
+    // Generate random data
+    generate_random_data(Input_A, Input_B, Input_C, Input_D, Input_E);
 
-    hash_function(state, round);
+    // Open FPGA
+    unsigned char* membase;
+    if (fpga_open() == 0) {
+        printf("Failed to open FPGA\n");
+        exit(1);
+    }
 
-    printf("Output: %08x %08x %08x %08x\n", state[0], state[1], state[2], state[3]);
+    fpga.dma_ctrl = CGRA_info.dma_mmap;
+    membase = (unsigned char*)CGRA_info.ddr_mmap;
+
+    // FPGA memory pointers
+    uint32_t* A     = (uint32_t*)(membase + A_BASE);
+    uint32_t* B     = (uint32_t*)(membase + B_BASE);
+    uint32_t* C     = (uint32_t*)(membase + C_BASE);
+    uint32_t* D     = (uint32_t*)(membase + D_BASE);
+    uint32_t* E     = (uint32_t*)(membase + E_BASE);
+    uint32_t* Out   = (uint32_t*)(membase + OUT_BASE);
+    uint32_t* Done  = (uint32_t*)(CGRA_info.pio_32_mmap + DONE_BASE);
+    uint32_t* Start = (uint32_t*)(CGRA_info.pio_32_mmap + START_BASE);
+
+    // Copy data to FPGA
+    for (int i = 0; i < SIZE; i++) {
+        A[i] = Input_A[i];
+        B[i] = Input_B[i];
+        C[i] = Input_C[i];
+        D[i] = Input_D[i];
+        E[i] = Input_E[i];
+    }
+
+    printf("membase = %016llX\n", (unsigned long long)membase);
+    printf("A = %08X\n", (unsigned int)A);
+    printf("B = %08X\n", (unsigned int)B);
+    printf("C = %08X\n", (unsigned int)C);
+    printf("D = %08X\n", (unsigned int)D);
+    printf("E = %08X\n", (unsigned int)E);
+    printf("Out = %08X\n", (unsigned int)Out);
+
+    printf("Writing to FPGA\n");
+    dma_write(A_BASE, SIZE);
+    dma_write(B_BASE, SIZE);
+    dma_write(C_BASE, SIZE);
+    dma_write(D_BASE, SIZE);
+    dma_write(E_BASE, SIZE);
+
+    // Start FPGA
+    *Start = 1;
+    printf("Waiting for FPGA\n");
+    while (*Done == 0);
+    printf("FPGA done\n");
+
+    // Read output
+    dma_read(OUT_BASE, SIZE);
+
+    // Print results
+    print_output(Out);
 
     return 0;
 }
